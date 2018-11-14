@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(name = "Flag Auto", group = "Competition")
-public class FlagAuto extends OpMode {
+public class FlagAuto2 extends OpMode {
 
     DcMotor r1, r2, l1, l2;
     int state;
@@ -62,48 +62,43 @@ public class FlagAuto extends OpMode {
                 goToPosition(10 * TICKS_PER_INCH);
                 if (isAtPosition(10 * TICKS_PER_INCH)) {
                     state++;
-                    break;
                 }
-                    case 7:
-                        goToPosition(-30 * TICKS_PER_INCH);
-                        if (isAtPosition(-30 * TICKS_PER_INCH)) {
-                            state++;
-                        }
-                    default:
-
-                        telemetry.addData("STATUS", "AUTO MODE FINISHED");
-                        break;
+                break;
+            case 7:
+                goToPosition(-30 * TICKS_PER_INCH);
+                if (isAtPosition(-30 * TICKS_PER_INCH)) {
+                    state++;
                 }
+            default:
+                telemetry.addData("STATUS", "AUTO MODE FINISHED");
+                break;
         }
-
-        public void startDrive ( double power){
-            r1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            r1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            r1.setPower(power);
-            r2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            r2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            r2.setPower(power);
-            l1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            l1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            l1.setPower(power);
-            l2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            l2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            l2.setPower(power);
-
-        }
-
-        public void goToPosition ( int position){
-            r1.setTargetPosition(position);
-            r2.setTargetPosition(position);
-            l1.setTargetPosition(position);
-            l2.setTargetPosition(position);
-        }
-
-
-        public boolean isAtPosition ( int position){
-            return (Math.abs(r1.getTargetPosition() - position) < 20);
-        }
-
     }
 
+    public void startDrive ( double power){
+        r1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        r1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        r1.setPower(power);
+        r2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        r2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        r2.setPower(power);
+        l1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        l1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        l1.setPower(power);
+        l2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        l2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        l2.setPower(power);
+    }
+
+    public void goToPosition ( int position){
+        r1.setTargetPosition(position);
+        r2.setTargetPosition(position);
+        l1.setTargetPosition(position);
+        l2.setTargetPosition(position);
+    }
+
+
+    public boolean isAtPosition ( int position){
+        return (Math.abs(r1.getTargetPosition() - position) < 20);
+    }
 }

@@ -4,9 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
-/*
 
- */
 @TeleOp(name = "Test Robot", group = "Test")
 public class Robot extends OpMode {
 
@@ -17,7 +15,7 @@ public class Robot extends OpMode {
     DcMotor liftMotor;
     DcMotor intakeMotor1;
     DcMotor intakeMotor2;
-
+    DriveTrain driveTrain;
 
     double leftPower;
     double rightPower;
@@ -26,6 +24,7 @@ public class Robot extends OpMode {
 
     @Override
     public void init() {
+
         leftMotors[0] = hardwareMap.dcMotor.get("FrontLeft");
         leftMotors[1] = hardwareMap.dcMotor.get("BackLeft");
         rightMotors[0] = hardwareMap.dcMotor.get("FrontRight");
@@ -37,46 +36,35 @@ public class Robot extends OpMode {
         intakeMotor2 = hardwareMap.dcMotor.get("backIntake");
         intakeMotor1 = hardwareMap.dcMotor.get("frontOuttake");
         intakeMotor2 = hardwareMap.dcMotor.get("backOuttake");
+        driveTrain = new DriveTrain (leftMotors[0], leftMotors[1], rightMotors[0], rightMotors[1], gamepad1);
     }
 
     @Override
     public void loop() {
-        leftPower = gamepad1.left_stick_x + gamepad1.left_stick_y;
-        rightPower = gamepad1.left_stick_y - gamepad1.left_stick_x;
-        rightMotors[0].setPower(rightPower);
-        rightMotors[1].setPower(rightPower);
-        leftMotors[0].setPower(leftPower);
-        leftMotors[1].setPower(leftPower);
-        liftMotor.setPower(-gamepad1.right_stick_y);
+        driveTrain.teleOp();
+
+        liftMotor.setPower(gamepad2.left_stick_y);
 
         if (gamepad1.a) {
             intakeMotor1.setPower(x);
-        }
-        else {
+        } else {
             intakeMotor1.setPower(0);
         }
         if (gamepad1.a) {
             intakeMotor2.setPower(-x);
-        }
-        else {
+        } else {
             intakeMotor2.setPower(0);
         }
         if (gamepad1.b) {
             intakeMotor1.setPower(-x);
-        }
-        else {
+        } else {
             intakeMotor1.setPower(0);
         }
         if (gamepad1.b) {
             intakeMotor2.setPower(x);
-        }
-        else {
+        } else {
             intakeMotor2.setPower(0);
         }
-
     }
 
-
 }
-
-
