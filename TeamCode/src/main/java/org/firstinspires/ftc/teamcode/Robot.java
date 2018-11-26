@@ -36,12 +36,12 @@ public class Robot extends OpMode {
         intakeMotor2 = hardwareMap.dcMotor.get("backIntake");
         intakeMotor1 = hardwareMap.dcMotor.get("frontOuttake");
         intakeMotor2 = hardwareMap.dcMotor.get("backOuttake");
-        driveTrain = new DriveTrain (leftMotors[0], leftMotors[1], rightMotors[0], rightMotors[1], gamepad1);
+        driveTrain = new DriveTrain (leftMotors[0], leftMotors[1], rightMotors[0], rightMotors[1]);
     }
 
     @Override
     public void loop() {
-        driveTrain.teleOp();
+        driveTrain.teleOp(gamepad1.left_stick_x, gamepad1.left_stick_y);
 
         liftMotor.setPower(gamepad2.left_stick_y);
 
