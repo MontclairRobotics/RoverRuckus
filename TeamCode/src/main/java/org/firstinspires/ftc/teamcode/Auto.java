@@ -8,6 +8,9 @@ public abstract class Auto extends OpMode {
     DcMotor[] leftMotors = new DcMotor[2];
     DcMotor[] rightMotors = new DcMotor[2];
     DriveTrain driveTrain;
+    Intake Intake;
+
+    int state;
 
     double x = 0.7;
     public void setup(){
@@ -15,6 +18,8 @@ public abstract class Auto extends OpMode {
         leftMotors[1] = hardwareMap.dcMotor.get("BackLeft");
         rightMotors[0] = hardwareMap.dcMotor.get("FrontRight");
         rightMotors[1] = hardwareMap.dcMotor.get("BackRight");
+
+        state = 0;
 
         driveTrain = new DriveTrain (rightMotors[0], leftMotors[0], rightMotors[1], leftMotors[1]);
     }
@@ -42,7 +47,17 @@ public abstract class Auto extends OpMode {
     }
 
     public boolean drive(int ticks){
-        return true;
+        driveTrain.setPosition(ticks, ticks);
+        return driveTrain.getTicks() > ticks;
+    }
+
+    public boolean stopDrive(){
+        return setDrivePower(0, 0);
+    }
+
+    public boolean turn(int ticks){
+        driveTrain.setPosition(ticks, -ticks);
+        return (driveTrain.getTicks() > ticks);
     }
 
     @Override
@@ -55,7 +70,10 @@ public abstract class Auto extends OpMode {
     public void loop() {
         userLoop();
     }
-
     public abstract void userInit();
     public abstract void userLoop();
+
+    public void calcNextState(boolean condition){
+        if(condition) state++;
+    }
 }

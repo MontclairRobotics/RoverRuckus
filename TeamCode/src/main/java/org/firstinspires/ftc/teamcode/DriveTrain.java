@@ -40,4 +40,15 @@ public class DriveTrain {
         br.setMode(mode);
         bl.setMode(mode);
     }
+
+    public void setPosition(int r, int l){
+        fr.setTargetPosition(r);
+        br.setTargetPosition(r);
+        fl.setTargetPosition(l);
+        bl.setTargetPosition(l);
+    }
+
+    public int getTicks(){
+        return fr.getCurrentPosition();
+    }
 }

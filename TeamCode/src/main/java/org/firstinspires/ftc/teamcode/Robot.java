@@ -16,6 +16,7 @@ public class Robot extends OpMode {
     DcMotor intakeMotor1;
     DcMotor intakeMotor2;
     DriveTrain driveTrain;
+    Intake intake;
 
     double leftPower;
     double rightPower;
@@ -24,12 +25,13 @@ public class Robot extends OpMode {
 
     @Override
     public void init() {
-
+        Servo147.init();
         leftMotors[0] = hardwareMap.dcMotor.get("FrontLeft");
         leftMotors[1] = hardwareMap.dcMotor.get("BackLeft");
         rightMotors[0] = hardwareMap.dcMotor.get("FrontRight");
         rightMotors[1] = hardwareMap.dcMotor.get("BackRight");
         buttonMotorA = hardwareMap.dcMotor.get("liftUp");
+
         buttonMotorB = hardwareMap.dcMotor.get("dropDown");
         liftMotor = hardwareMap.dcMotor.get("LiftDrop");
         intakeMotor1 = hardwareMap.dcMotor.get("frontIntake");
@@ -41,11 +43,13 @@ public class Robot extends OpMode {
 
     @Override
     public void loop() {
+        Servo147.loop();
         driveTrain.teleOp(gamepad1.left_stick_x, gamepad1.left_stick_y);
 
         liftMotor.setPower(gamepad2.left_stick_y);
 
-        if (gamepad1.a) {
+        intake.teleop(gamepad1.a, gamepad1.b);
+    /** if (gamepad1.a) {
             intakeMotor1.setPower(x);
         } else {
             intakeMotor1.setPower(0);
@@ -65,6 +69,7 @@ public class Robot extends OpMode {
         } else {
             intakeMotor2.setPower(0);
         }
+     */
     }
 
 }
