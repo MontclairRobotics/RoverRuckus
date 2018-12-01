@@ -45,7 +45,7 @@ public class PositionSystem {
      */
     public void updatePos(){
         double pastSec = System.currentTimeMillis()/1000.0-oldSec;
-        if(pastSec > 0.25) {
+        if(pastSec > 1/16) {
             double distance = ((driveTrain.getTicksBL() * inchPerTick +
                     driveTrain.getTicksBR() * inchPerTick) / 2);
 
