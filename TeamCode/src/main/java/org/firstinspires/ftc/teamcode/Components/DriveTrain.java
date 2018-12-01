@@ -21,17 +21,11 @@ public class DriveTrain{
 
     public DriveTrain(OpMode opMode) {
         this.opMode = opMode;
-    }
 
-    public void init(boolean debug){
         motors[0][0] = opMode.hardwareMap.dcMotor.get("FrontLeft");
         motors[0][1] = opMode.hardwareMap.dcMotor.get("BackLeft");
         motors[1][0] = opMode.hardwareMap.dcMotor.get("FrontRight");
         motors[1][1] = opMode.hardwareMap.dcMotor.get("BackRight");
-
-        if(debug){
-            opMode.telemetry.addData("INFO:","Drivetrain Init");
-        }
     }
 
     public void run(boolean debug) {

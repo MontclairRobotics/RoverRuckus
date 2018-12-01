@@ -38,15 +38,9 @@ public class IntakeLift {
 
     public IntakeLift(OpMode opMode){
         this.opMode = opMode;
-    }
 
-    public void init(boolean debug){
         primaryMotor = opMode.hardwareMap.dcMotor.get("PrimaryMotor");
         secondaryMotor = opMode.hardwareMap.servo.get("SecondaryMotor");
-
-        if(debug){
-            opMode.telemetry.addData("INFO","Intake Lift INIT");
-        }
     }
 
     public void run(){

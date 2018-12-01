@@ -6,7 +6,6 @@ import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.Gyro;
 import org.firstinspires.ftc.teamcode.Positioning.Utils.Vector2d;
 
-@Deprecated //INCOMPLETE AND UNSAFE!!!
 public class PositionSystem {
 
     public enum TgtPositions{
@@ -14,7 +13,7 @@ public class PositionSystem {
 
         private final Vector2d tgtPosition;
         TgtPositions(Vector2d id) { this.tgtPosition = id; }
-        public Vector2d getValue() { return tgtPosition; }
+        public Vector2d getVector2d() { return tgtPosition; }
     }
 
     OpMode opMode;
@@ -27,18 +26,23 @@ public class PositionSystem {
     private double oldHeading;
     private Vector2d position;
 
-    public PositionSystem(OpMode opMode, Gyro gyro, DriveTrain driveTrain){
+    /**
+     *
+     * @param opMode OpMode
+     * @param gyro Gyroscope
+     * @param driveTrain Drive Train
+     * @param startingPosition Starting Position
+     */
+    public PositionSystem(OpMode opMode, Gyro gyro, DriveTrain driveTrain, Vector2d startingPosition){
         this.opMode = opMode;
         this.gyro = gyro;
         this.driveTrain = driveTrain;
+        this.position = startingPosition;
     }
 
-    public void init(boolean debug){
-        if(debug){
-            opMode.telemetry.addData("INFO", "Pos Sys INIT");
-        }
-    }
-
+    /**
+     * Updates current position using encoder and gyro every 0.25 seconds
+     */
     public void updatePos(){
         double pastSec = System.currentTimeMillis()/1000.0-oldSec;
         if(pastSec > 0.25) {
@@ -61,19 +65,22 @@ public class PositionSystem {
     }
 
     /**
-     * Calculates distance from current location to tgt
+     * Calculates distance from current location to target position
      * @param tgtPos Vector2d representation of tgt location
-     * @return distance in inches
+     * @return Distance in inches
      */
     public double calcDist(Vector2d tgtPos){
         return Math.sqrt(Math.pow(position.getX()-tgtPos.getX(),2)+Math.pow(position.getY()-tgtPos.getY(),2));
     }
 
 
-    //TODO: FINISH
+    /**
+     * Calculates the angle to turn for driving to target position
+     * @param tgtPos Vector2d representation of tgt location
+     * @return Angle in degrees.
+     */
     public double calcAngle(Vector2d tgtPos){
-        
-        return 0;
+        return gyro.getYaw()-Math.abs(Math.atan((tgtPos.getY()-position.getY())/(tgtPos.getX()-position.getX())));
     }
 
 }

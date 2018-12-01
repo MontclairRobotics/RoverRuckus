@@ -21,9 +21,6 @@ public class Teleop extends OpMode {
         intake = new Intake(this);
         intakeLift = new IntakeLift(this);
 
-        driveTrain.init(true);
-        intake.init(true);
-
         telemetry.addData("INFO", "INIT COMPLETE");
 
     }

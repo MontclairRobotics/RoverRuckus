@@ -18,14 +18,8 @@ public class Intake {
 
     public Intake(OpMode opMode){
         this.opMode = opMode;
-    }
 
-    public void init(boolean debug){
         motor = opMode.hardwareMap.servo.get("Intake");
-
-        if (debug){
-            opMode.telemetry.addData("INFO", "Intake INIT");
-        }
     }
 
     public void run(){

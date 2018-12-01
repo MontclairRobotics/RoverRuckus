@@ -19,9 +19,7 @@ public class Gyro {
 
     public Gyro(OpMode opmode){
         this.opmode = opmode;
-    }
 
-    public void init(boolean debug) {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -35,13 +33,8 @@ public class Gyro {
         // and named "imu".
         imu = opmode.hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-
-        if(debug){
-            opmode.telemetry.addData("INFO","Gyro INIT");
-        }
     }
 
-    //TODO: CHECK
     public double getYaw(){
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         opmode.telemetry.addData("Heading",

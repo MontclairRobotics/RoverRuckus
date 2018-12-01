@@ -80,11 +80,11 @@ public class Sampling extends AutoMode {
                                 } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
                                     telemetry.addData("Gold Mineral Position", "Left");
                                     turn = Turn.LEFT;
-                                    states = States.TURN;
+                                    nextState(true, States.TURN);
                                 } else {
                                     telemetry.addData("Gold Mineral Position", "Center");
                                     input = 24;
-                                    states = States.DRIVE;
+                                    nextState(true, States.DRIVE);
                                 }
                             }
                         }
