@@ -6,23 +6,23 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Components.DriveTrain;
 import org.firstinspires.ftc.teamcode.Components.Gyro;
 import org.firstinspires.ftc.teamcode.Components.Intake;
+import org.firstinspires.ftc.teamcode.Components.IntakeLift;
 
 @TeleOp(name = "Yum", group = "test")
 public class Teleop extends OpMode {
 
     DriveTrain driveTrain;
     Intake intake;
-    Gyro gyro;
+    IntakeLift intakeLift;
 
     @Override
     public void init() {
         driveTrain = new DriveTrain(this);
-//        intake = new Intake(this);
-//        gyro = new Gyro(this);
+        intake = new Intake(this);
+        intakeLift = new IntakeLift(this);
 
         driveTrain.init(true);
-//        intake.init(true);
-//        gyro.init(true);
+        intake.init(true);
 
         telemetry.addData("INFO", "INIT COMPLETE");
 
@@ -31,10 +31,13 @@ public class Teleop extends OpMode {
     @Override
     public void loop() {
         driveTrain.run(true);
-        driveTrain.getTicksBR();
-        driveTrain.getTicksBL();
-//        intake.run();
-//        gyro.getYaw();
+
+        intake.run();
+        intakeLift.run();
+
+        // Debug for ticks per inch
+        telemetry.addData("Left Ticks", driveTrain.getTicksBL());
+        telemetry.addData("Right Ticks", driveTrain.getTicksBR());
 
         updateTelemetry(telemetry);
     }

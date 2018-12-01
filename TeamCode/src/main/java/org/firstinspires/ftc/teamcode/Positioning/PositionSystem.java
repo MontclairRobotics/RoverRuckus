@@ -71,12 +71,9 @@ public class PositionSystem {
 
 
     //TODO: FINISH
-    public double calcAngle(){
+    public double calcAngle(Vector2d tgtPos){
+        
         return 0;
     }
 
-    //TODO: FINISH
-    public boolean atPos(){
-        return false;
-    }
 }

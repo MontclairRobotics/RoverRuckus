@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto.Basic;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.Components.IntakeLift;
 import org.firstinspires.ftc.teamcode.OpModes.Auto.Utils.AutoMode;
 
 import java.util.List;
@@ -27,9 +28,13 @@ public class Sampling extends AutoMode {
     private enum Turn{
         LEFT(-90), RIGHT(90);
 
-        private final int id;
-        Turn(int id) { this.id = id; }
-        public int getValue() { return id; }
+        private final int degrees;
+        Turn(int degrees) {
+            this.degrees = degrees;
+        }
+        public int getDegrees() {
+            return degrees;
+        }
     }
     Turn turn;
 
@@ -43,6 +48,8 @@ public class Sampling extends AutoMode {
         switch(states){
             case START:
                 telemetry.addData("Current State","Start");
+                intakeLift.setAutoPos(IntakeLift.AutoPos.UP);
+                nextState(true, States.VISION);
                 break;
 
             case VISION:
@@ -99,7 +106,7 @@ public class Sampling extends AutoMode {
                 if(sampleComplete){
                     nextState(driveTrain.autoDrive((int) input), States.ACCEPT);
                 }else{
-                    nextState(driveTrain.autoDrive((int) input), States.DRIVE, -turn.getValue());
+                    nextState(driveTrain.autoDrive((int) input), States.DRIVE, -turn.getDegrees());
                 }
                 break;
 

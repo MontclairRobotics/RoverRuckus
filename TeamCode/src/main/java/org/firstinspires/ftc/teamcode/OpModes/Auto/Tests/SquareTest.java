@@ -16,21 +16,18 @@ public class SquareTest extends AutoMode {
     public void loop() {
         switch (states){
             case START:
-                states = States.DRIVE;
-                input = 24;
                 telemetry.addData("State", "Start");
+                nextState(true, States.DRIVE, 24);
                 break;
 
             case DRIVE:
-                states = States.TURN;
-                input = 90;
                 telemetry.addData("State", "Drive");
+                nextState(driveTrain.autoDrive((int) input), States.TURN, 90);
                 break;
 
             case TURN:
-                states = States.DRIVE;
-                input = 24;
                 telemetry.addData("State", "Turn");
+                nextState(driveTrain.autoTurn((int) input), States.TURN, 24);
                 break;
         }
     }

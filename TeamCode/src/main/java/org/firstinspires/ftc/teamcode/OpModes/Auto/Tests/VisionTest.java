@@ -12,48 +12,21 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.teamcode.OpModes.Auto.Utils.AutoMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous(name = "Vision Test", group = "Test")
-public class VisionTest extends OpMode {
-
-    private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
-    private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
-    private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
-
-    private static final String VUFORIA_KEY = "AVhGMov/////AAAAGUk16JthIkWst4BeQ3creo+NTUF+BxVD6iSoptSHES0tn3qxxl8EoEMBtZfR9lS5zeb8wa5m+susmQEk+ELlMZvkhfCo5hwgtQVQo95VhTaduQjLatwooAcigCDfAK19KDQPw7O4/Q0p0G79ni5UlnYrw/lF1ZC2iv+41EGTjOTT8yC6wWMzzi2ugWGtIYs9Qy62b9S+Jr2/JjoqtzoaeUX7cmshji5IRmPojALj71tKJb1Gay4XcCb7fMMkO10SDaY84E66Vt0aEhgyA4VY/ASABIEEBlpDoq7N/tTSMxDfahX0xP76BXUSNEug7Y378HPg9siRGv5AQns3Y44RfPqBu6kQN1yDXb+43Zl3ZkzF";
-    private VuforiaLocalizer vuforia;
-    private TFObjectDetector tfod;
-
-
-    VuforiaTrackables targetsRoverRuckus;
-    boolean targetVisible;
-    List<VuforiaTrackable> allTrackables;
+public class VisionTest extends AutoMode {
 
     @Override
     public void init() {
-        initVuforia();
-        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-            initTfod();
-        } else {
-            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-        }
+        super.init();
     }
 
     @Override
     public void loop() {
-        targetVisible = false;
-        ArrayList<String> visibleTargets = new ArrayList<>();
-        for (VuforiaTrackable trackable : allTrackables) {
-            if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
-                telemetry.addData("Visible Target", trackable.getName());
-                visibleTargets.add(trackable.getName());
-                targetVisible = true;
-            }
-        }
-
         if (tfod != null) {
             tfod.activate();
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
@@ -86,35 +59,5 @@ public class VisionTest extends OpMode {
             }
         }
     }
-    
-    private void initVuforia() {
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-        /*
-        targetsRoverRuckus = this.vuforia.loadTrackablesFromAsset("RoverRuckus");
-        VuforiaTrackable blueRover = targetsRoverRuckus.get(0);
-        blueRover.setName("Rover");
-        VuforiaTrackable redFootprint = targetsRoverRuckus.get(1);
-        redFootprint.setName("Footprint");
-        VuforiaTrackable frontCraters = targetsRoverRuckus.get(2);
-        frontCraters.setName("Craters");
-        VuforiaTrackable backSpace = targetsRoverRuckus.get(3);
-        backSpace.setName("Space");
-        allTrackables = new ArrayList<VuforiaTrackable>();
-        allTrackables.addAll(targetsRoverRuckus);
-        targetsRoverRuckus.activate();
-        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
-        */
-    }
-
-    private void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
-    }
 }
