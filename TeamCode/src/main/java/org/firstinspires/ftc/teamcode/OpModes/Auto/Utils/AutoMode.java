@@ -13,7 +13,7 @@ public class AutoMode extends OpMode {
 
     // State Machine Setup
     protected enum States{
-        START, VISION, TURN, DRIVE, ACCEPT
+        START, VISION, TURN, DRIVE, INTAKE, ACCEPT
     }
 
     protected AutoMode.States states = AutoMode.States.START;

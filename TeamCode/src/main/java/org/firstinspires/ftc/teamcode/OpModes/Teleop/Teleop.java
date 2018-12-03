@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Components.Gyro;
 import org.firstinspires.ftc.teamcode.Components.Intake;
 import org.firstinspires.ftc.teamcode.Components.IntakeLift;
 
-@TeleOp(name = "Yum", group = "test")
+@TeleOp(name = "Teleop", group = "test")
 public class Teleop extends OpMode {
 
     DriveTrain driveTrain;
@@ -18,8 +18,8 @@ public class Teleop extends OpMode {
     @Override
     public void init() {
         driveTrain = new DriveTrain(this);
-        intake = new Intake(this);
-        intakeLift = new IntakeLift(this);
+//        intake = new Intake(this);
+//        intakeLift = new IntakeLift(this);
 
         telemetry.addData("INFO", "INIT COMPLETE");
 
@@ -27,10 +27,10 @@ public class Teleop extends OpMode {
 
     @Override
     public void loop() {
-        driveTrain.run(true);
 
-        intake.run();
-        intakeLift.run();
+        driveTrain.run(true);
+//        intake.run();
+//        intakeLift.run();
 
         // Debug for ticks per inch
         telemetry.addData("Left Ticks", driveTrain.getTicksBL());

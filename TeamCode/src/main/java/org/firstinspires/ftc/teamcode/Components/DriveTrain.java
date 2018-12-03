@@ -32,8 +32,8 @@ public class DriveTrain{
         double leftPower;
         double rightPower;
 
-        leftPower = opMode.gamepad1.left_stick_y - opMode.gamepad1.left_stick_x;
-        rightPower = opMode.gamepad1.left_stick_y + opMode.gamepad1.left_stick_x;
+        leftPower = -opMode.gamepad1.left_stick_y + opMode.gamepad1.right_stick_x;
+        rightPower = opMode.gamepad1.left_stick_y + opMode.gamepad1.right_stick_x;
 
         motors[0][0].setPower(leftPower);
         motors[0][1].setPower(leftPower);
@@ -44,6 +44,22 @@ public class DriveTrain{
             opMode.telemetry.addData("Left Power", leftPower);
             opMode.telemetry.addData("Right Power", rightPower);
         }
+
+    }
+
+    public void ram(){
+        motors[0][0].setPower(0.75);
+        motors[0][1].setPower(0.75);
+        motors[1][0].setPower(-0.75);
+        motors[1][1].setPower(-0.75);
+
+    }
+
+    public void ram2(){
+        motors[0][0].setPower(-0.75);
+        motors[0][1].setPower(-0.75);
+        motors[1][0].setPower(0.75);
+        motors[1][1].setPower(0.75);
 
     }
 

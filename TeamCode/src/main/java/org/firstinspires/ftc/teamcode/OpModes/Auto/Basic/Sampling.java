@@ -48,8 +48,7 @@ public class Sampling extends AutoMode {
         switch(states){
             case START:
                 telemetry.addData("Current State","Start");
-                intakeLift.setAutoPos(IntakeLift.AutoPos.UP);
-                nextState(true, States.VISION);
+                nextState(intakeLift.setAutoPos(IntakeLift.AutoPos.UP), States.VISION);
                 break;
 
             case VISION:

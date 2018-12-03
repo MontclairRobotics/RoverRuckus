@@ -17,7 +17,7 @@ public class IntakeLift {
     Servo secondaryMotor;
 
     public enum AutoPos{
-        UP(0,0), DOWN(0,0); //TODO: TEST FOR VALUES
+        UP(0,0), DOWN(0,0), BACK(0,0), OUTTAKE(0,0); //TODO: TEST FOR VALUES
 
         private final int primaryMotorPos;
         private final int secondaryMotorPos;
@@ -40,17 +40,29 @@ public class IntakeLift {
         this.opMode = opMode;
 
         primaryMotor = opMode.hardwareMap.dcMotor.get("PrimaryMotor");
-        secondaryMotor = opMode.hardwareMap.servo.get("SecondaryMotor");
+        secondaryMotor = opMode.hardwareMap.servo.get("intakeLift");
     }
 
     public void run(){
-        primaryMotor.setPower(opMode.gamepad2.left_stick_y);
+        if (opMode.gamepad2.dpad_up){
+            primaryMotor.setPower(1);
+        }else if(opMode.gamepad2.dpad_down){
+            primaryMotor.setPower(-1);
+        }
         setSpeed(secondaryMotor, opMode.gamepad2.right_stick_y);
     }
 
-    public void setAutoPos(AutoPos autoPos){
+    public boolean setAutoPos(AutoPos autoPos){
         primaryMotor.setTargetPosition(autoPos.getPrimaryMotorPos());
         secondaryMotor.setPosition(autoPos.getSecondaryMotorPos());
+        if (primaryMotor.getCurrentPosition() > autoPos.getPrimaryMotorPos()-5 &&
+                primaryMotor.getCurrentPosition() < autoPos.getPrimaryMotorPos() + 5 &&
+                secondaryMotor.getPosition() > autoPos.getSecondaryMotorPos() - 5 &&
+                secondaryMotor.getPosition() < autoPos.getSecondaryMotorPos() + 5){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     private void setSpeed(Servo servo, double speed){

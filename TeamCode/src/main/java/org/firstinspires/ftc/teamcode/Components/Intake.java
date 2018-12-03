@@ -11,6 +11,21 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 public class Intake {
 
+    public enum AutoStates{
+        INTAKE(1), OUTTAKE(-1), IDLE(0);
+
+        private final int speed;
+
+        AutoStates(int speed) {
+            this.speed = speed;
+        }
+
+        public int getSpeed() {
+            return speed;
+        }
+
+    }
+
     OpMode opMode;
     Servo motor;
 
@@ -19,7 +34,7 @@ public class Intake {
     public Intake(OpMode opMode){
         this.opMode = opMode;
 
-        motor = opMode.hardwareMap.servo.get("Intake");
+        motor = opMode.hardwareMap.servo.get("intake");
     }
 
     public void run(){
@@ -30,6 +45,23 @@ public class Intake {
         }else{
             setSpeed(motor, 0);
         }
+    }
+
+    public void setAutoRotation(AutoStates autoStates){
+        switch (autoStates){
+            case INTAKE:
+                setSpeed(motor, AutoStates.INTAKE.getSpeed());
+                break;
+
+            case OUTTAKE:
+                setSpeed(motor, AutoStates.OUTTAKE.getSpeed());
+                break;
+
+            case IDLE:
+                setSpeed(motor, AutoStates.IDLE.getSpeed());
+                break;
+        }
+
     }
 
     private void setSpeed(Servo servo, double speed){
