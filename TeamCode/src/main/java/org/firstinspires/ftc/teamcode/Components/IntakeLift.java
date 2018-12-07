@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.Components;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 /**
  * Intake Lift Controls:
@@ -13,22 +15,30 @@ public class IntakeLift {
 
     OpMode opMode;
 
-    DcMotor primaryMotor;
-    Servo secondaryMotor;
+    DcMotor liftLeft;
+    DcMotor liftRight;
+
+//    Servo secondaryMotor;
 
     public enum AutoPos{
-        UP(0,0), DOWN(0,0), BACK(0,0), OUTTAKE(0,0); //TODO: TEST FOR VALUES
+        UP(0,0,0), DOWN(0,0,0), BACK(0,0,0), OUTTAKE(0,0,0); //TODO: TEST FOR VALUES
 
-        private final int primaryMotorPos;
+        private final int liftLeftMotorPos;
+        private final int liftRightMotorPos;
         private final int secondaryMotorPos;
 
-        AutoPos(int primaryMotorPos, int secondaryMotorPos) {
-            this.primaryMotorPos = primaryMotorPos;
+        AutoPos(int liftLeftMotorPos, int liftRightMotorPos, int secondaryMotorPos) {
+            this.liftLeftMotorPos = liftLeftMotorPos;
+            this.liftRightMotorPos = liftRightMotorPos;
             this.secondaryMotorPos = secondaryMotorPos;
         }
 
-        public int getPrimaryMotorPos() {
-            return primaryMotorPos;
+        public int getLiftLeftMotorPos() {
+            return liftLeftMotorPos;
+        }
+
+        public int getLiftRightMotorPos(){
+            return liftRightMotorPos;
         }
 
         public int getSecondaryMotorPos() {
@@ -39,30 +49,51 @@ public class IntakeLift {
     public IntakeLift(OpMode opMode){
         this.opMode = opMode;
 
-        primaryMotor = opMode.hardwareMap.dcMotor.get("PrimaryMotor");
-        secondaryMotor = opMode.hardwareMap.servo.get("intakeLift");
+        liftLeft = opMode.hardwareMap.dcMotor.get("IntakeLeft");
+        liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        liftRight = opMode.hardwareMap.dcMotor.get("IntakeRight");
+        liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+//        secondaryMotor = opMode.hardwareMap.servo.get("IntakeLift");
     }
 
     public void run(){
-        if (opMode.gamepad2.dpad_up){
-            primaryMotor.setPower(1);
-        }else if(opMode.gamepad2.dpad_down){
-            primaryMotor.setPower(-1);
+        if(Math.abs(opMode.gamepad2.left_stick_y) < 0.05 &&
+                Math.abs(opMode.gamepad2.left_stick_y) >= 0){
+            liftLeft.setPower(0);
+            liftRight.setPower(0);
+        }else{
+            liftLeft.setPower(opMode.gamepad2.left_stick_y);
+            liftRight.setPower(opMode.gamepad2.left_stick_y);
         }
-        setSpeed(secondaryMotor, opMode.gamepad2.right_stick_y);
+
+        getPos();
     }
 
     public boolean setAutoPos(AutoPos autoPos){
-        primaryMotor.setTargetPosition(autoPos.getPrimaryMotorPos());
-        secondaryMotor.setPosition(autoPos.getSecondaryMotorPos());
-        if (primaryMotor.getCurrentPosition() > autoPos.getPrimaryMotorPos()-5 &&
-                primaryMotor.getCurrentPosition() < autoPos.getPrimaryMotorPos() + 5 &&
+        liftLeft.setTargetPosition(autoPos.getLiftLeftMotorPos());
+        liftRight.setTargetPosition(autoPos.getLiftRightMotorPos());
+//        secondaryMotor.setPosition(autoPos.getSecondaryMotorPos());
+        if (liftLeft.getCurrentPosition() > autoPos.getLiftLeftMotorPos()-5 &&
+                liftLeft.getCurrentPosition() < autoPos.getLiftLeftMotorPos() + 5 &&
+                liftRight.getCurrentPosition() > autoPos.getLiftRightMotorPos()-5 &&
+                liftRight.getCurrentPosition() < autoPos.getLiftRightMotorPos() + 5 /*&&
                 secondaryMotor.getPosition() > autoPos.getSecondaryMotorPos() - 5 &&
-                secondaryMotor.getPosition() < autoPos.getSecondaryMotorPos() + 5){
+                secondaryMotor.getPosition() < autoPos.getSecondaryMotorPos() + 5*/){
             return true;
         }else {
             return false;
         }
+    }
+
+    public void getPos(){
+        opMode.telemetry.addData("Left Motor Pos", liftLeft.getCurrentPosition());
+        opMode.telemetry.addData("Right Motor Pos", liftRight.getCurrentPosition());
+//        opMode.telemetry.addData("Secondary Motor Pos", secondaryMotor.getPosition());
     }
 
     private void setSpeed(Servo servo, double speed){

@@ -13,7 +13,7 @@ public class DriveTrain{
 
     private boolean driving = false;
     private boolean turning = false;
-    private final double TICKS_PER_INCH = 1000/14;
+    private final double TICKS_PER_INCH = 2200/62;
     private  final double circumference = 14 * Math.sqrt(2) * Math.PI;
     private  final double degree = circumference / 360;
 
@@ -23,9 +23,25 @@ public class DriveTrain{
         this.opMode = opMode;
 
         motors[0][0] = opMode.hardwareMap.dcMotor.get("FrontLeft");
+        motors[0][0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motors[0][0].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motors[0][0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         motors[0][1] = opMode.hardwareMap.dcMotor.get("BackLeft");
+        motors[0][1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motors[0][1].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motors[0][1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         motors[1][0] = opMode.hardwareMap.dcMotor.get("FrontRight");
+        motors[1][0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motors[1][0].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motors[1][0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         motors[1][1] = opMode.hardwareMap.dcMotor.get("BackRight");
+        motors[1][1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motors[1][1].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motors[1][1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 
     public void run(boolean debug) {
@@ -52,7 +68,6 @@ public class DriveTrain{
         motors[0][1].setPower(0.75);
         motors[1][0].setPower(-0.75);
         motors[1][1].setPower(-0.75);
-
     }
 
     public void ram2(){
@@ -60,7 +75,6 @@ public class DriveTrain{
         motors[0][1].setPower(-0.75);
         motors[1][0].setPower(0.75);
         motors[1][1].setPower(0.75);
-
     }
 
     // AUTO DRIVING

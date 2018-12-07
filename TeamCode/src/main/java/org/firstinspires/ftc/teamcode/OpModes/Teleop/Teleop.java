@@ -18,8 +18,8 @@ public class Teleop extends OpMode {
     @Override
     public void init() {
         driveTrain = new DriveTrain(this);
-//        intake = new Intake(this);
-//        intakeLift = new IntakeLift(this);
+        intake = new Intake(this);
+        intakeLift = new IntakeLift(this);
 
         telemetry.addData("INFO", "INIT COMPLETE");
 
@@ -30,7 +30,7 @@ public class Teleop extends OpMode {
 
         driveTrain.run(true);
 //        intake.run();
-//        intakeLift.run();
+        intakeLift.run();
 
         // Debug for ticks per inch
         telemetry.addData("Left Ticks", driveTrain.getTicksBL());

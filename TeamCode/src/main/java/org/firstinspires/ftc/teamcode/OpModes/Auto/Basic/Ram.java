@@ -1,11 +1,22 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto.Basic;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.OpModes.Auto.Utils.AutoMode;
 
-@Autonomous(name = "Ram", group = "test")
+/**
+ * AUTO MODE: Ram
+ *
+ * MINIMUM POINT WORTH: 5 pts
+ *
+ * SETUP: Front facing the sample
+ *
+ * SUMMARY: The auto jerks in the backwards direction, then rams full speed ahead.
+ * The robot has the ability to drop the marker and push the center mineral from the center,
+ * if facing towards the depot. Otherwise if pointed towards the crater, the robot can go over the barrier,
+ * however may get stuck on the minerals and become immobilized.
+ */
+@Autonomous(name = "Ram", group = "Basic")
 public class Ram extends AutoMode {
 
     double startTime;

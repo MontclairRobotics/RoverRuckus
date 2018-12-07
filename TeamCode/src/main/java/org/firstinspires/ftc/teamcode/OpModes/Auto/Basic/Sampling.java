@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * AUTO MODE: Sampling
  *
- * POINT WORTH: 15 pts
+ * MINIMUM POINT WORTH: 15 pts
  *
  * SETUP: Front facing the sample
  *
@@ -20,7 +20,7 @@ import java.util.List;
  *  The robot will then drive forward.
  */
 
-@Autonomous(name = "Sampling", group = "Official")
+@Autonomous(name = "Sampling", group = "Basic")
 public class Sampling extends AutoMode {
 
     //Auto specific

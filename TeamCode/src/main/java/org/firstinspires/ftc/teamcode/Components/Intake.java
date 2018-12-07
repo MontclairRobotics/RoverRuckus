@@ -34,7 +34,7 @@ public class Intake {
     public Intake(OpMode opMode){
         this.opMode = opMode;
 
-        motor = opMode.hardwareMap.servo.get("intake");
+        motor = opMode.hardwareMap.servo.get("Intake");
     }
 
     public void run(){

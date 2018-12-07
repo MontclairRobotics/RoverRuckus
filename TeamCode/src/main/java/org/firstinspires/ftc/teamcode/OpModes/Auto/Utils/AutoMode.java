@@ -49,6 +49,7 @@ public class AutoMode extends OpMode {
 
     @Override
     public void init(){
+
         // Init Components
         driveTrain = new DriveTrain(this);
         intake = new Intake(this);
